@@ -35,7 +35,7 @@ EOF
 cat > /push_ip_to_cs.sh <<EOF
 #!/bin/bash
 IP=\$(/sbin/ifconfig wlan0 | grep 'inet addr:' | awk '{print \$2}' | cut -d: -f2)
-ssh acm@sirius.cs.odu.edu "echo \$IP > coffee_ip"
+echo "$IP" | ssh acm@sirius.cs.odu.edu
 # ^ Do that manually once to accept the server cert.
 EOF
 

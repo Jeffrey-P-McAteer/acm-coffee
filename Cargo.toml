@@ -1,0 +1,9 @@
+[package]
+name = "acm-coffee"
+version = "0.1.0"
+authors = ["Jeffrey McAteer <jeffrey.p.mcateer@gmail.com>"]
+
+[dependencies]
+tiny_http = "0.5"
+rscam = "0.5.0"
+image = "*"

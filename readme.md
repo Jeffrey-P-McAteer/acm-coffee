@@ -11,6 +11,8 @@ The current server is running in python, but this will be re-written in rust for
 
 (even though the image we process is 640x480 I've seen some embarassing delays just drawing basic objects on it)
 
+## Python Server (deprecated)
+
 Spinning up a local copy of the python server can be done by cd-ing to `./acm-coffee-old/` and running
 
     python2 -m CGIHTTPServer 8080
@@ -18,4 +20,11 @@ Spinning up a local copy of the python server can be done by cd-ing to `./acm-co
 Then browse to [http://localhost:8080/cgi-bin/coffeepot.py](http://localhost:8080/cgi-bin/coffeepot.py).
 
 (It's not very mistake friendly, one of the reasons a rewrite is in order)
+
+## Rust server
+
+If you have `cargo` installed run the server with
+
+    cargo run --release
+
 

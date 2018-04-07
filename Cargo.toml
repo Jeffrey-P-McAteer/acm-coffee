@@ -3,7 +3,15 @@ name = "acm-coffee"
 version = "0.1.0"
 authors = ["Jeffrey McAteer <jeffrey.p.mcateer@gmail.com>"]
 
+# cargo install cross
+# cross build --target armv7-unknown-linux-gnueabihf
+#[target.armv7-unknown-linux-gnueabihf]
+#image = "japaric/armv7-unknown-linux-gnueabihf" # original, no opencv haders
+#image = "acm-coffee-armv7-unknown-linux-gnueabihf"
+
+## NO LONGER CROSS-COMPILING, DEPLOY SOURCE
+
 [dependencies]
 tiny_http = "0.5"
-rscam = "0.5.0"
-image = "*"
+cv = { git = "https://github.com/nebgnahz/cv-rs.git" }
+lazy_static = "1.0"

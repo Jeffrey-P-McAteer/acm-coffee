@@ -20,14 +20,10 @@ apt-get install -y vim
 
 crontab - <<EOF
 # Perform auth every 60s
-* * * * * /www/auth.sh
+* * * * * /opt/coffee/auth.sh
 * * * * * sleep 20; /push_ip_to_cs.sh
-# Takes approx. 3.5 seconds to take picture
-#* * * * * for i in \$(seq 0 15); do fswebcam -r 640x480 --jpeg 85 /www/media/shot.jpg; sleep 0.5; done >>/tmp/log 2>&1
-# Webserver exits cleanly if already running
-* * * * * /www/run.sh >>/tmp/log 2>&1
-# Take pics of coffee. Exits if already running.
-* * * * * /www/cgi-bin/coffeepot.py --cam-process >>/tmp/log 2>&1
+# Rust Code: exits cleanly if already running
+* * * * * /opt/coffee/run.sh >>/tmp/log 2>&1
 # Clear log file every hour
 0 * * * * rm /tmp/log*
 EOF
@@ -35,7 +31,7 @@ EOF
 cat > /push_ip_to_cs.sh <<EOF
 #!/bin/bash
 IP=\$(/sbin/ifconfig wlan0 | grep 'inet addr:' | awk '{print \$2}' | cut -d: -f2)
-echo "$IP" | ssh acm@sirius.cs.odu.edu
+echo "\$IP" | ssh acm@sirius.cs.odu.edu
 # ^ Do that manually once to accept the server cert.
 EOF
 
@@ -112,5 +108,12 @@ fswebcam -r 640x480 --jpeg 85 -D 1 shot.jpg # Testing
 
 echo "nobody ALL=(root) NOPASSWD: /www/asroot.sh" > /etc/sudoers.d/passwordless
 
-apt-get install -y python-opencv
+#apt-get install -y python-opencv
+
+### Rust Install ###
+
+curl -sf -L https://static.rust-lang.org/rustup.sh | sh
+
+
+
 

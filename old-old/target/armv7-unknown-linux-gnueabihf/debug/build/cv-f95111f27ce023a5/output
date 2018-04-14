@@ -1,0 +1,269 @@
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+OPT_LEVEL = Some("0")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+CXX_armv7-unknown-linux-gnueabihf = None
+CXX_armv7_unknown_linux_gnueabihf = None
+TARGET_CXX = None
+CXX = None
+HOST = Some("x86_64-unknown-linux-gnu")
+CROSS_COMPILE = None
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+CXXFLAGS_armv7-unknown-linux-gnueabihf = None
+CXXFLAGS_armv7_unknown_linux_gnueabihf = None
+TARGET_CXXFLAGS = None
+CXXFLAGS = None
+DEBUG = Some("true")
+running: "arm-linux-gnueabihf-g++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-g" "-march=armv7-a" "-I" "native" "-I" "/usr/local/include" "--std=c++11" "-Wall" "-Wextra" "-o" "/j/projects/acm-coffee/target/armv7-unknown-linux-gnueabihf/debug/build/cv-f95111f27ce023a5/out/native/common-rust.o" "-c" "native/common-rust.cc"
+exit code: 0
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+OPT_LEVEL = Some("0")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+CXX_armv7-unknown-linux-gnueabihf = None
+CXX_armv7_unknown_linux_gnueabihf = None
+TARGET_CXX = None
+CXX = None
+HOST = Some("x86_64-unknown-linux-gnu")
+CROSS_COMPILE = None
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+CXXFLAGS_armv7-unknown-linux-gnueabihf = None
+CXXFLAGS_armv7_unknown_linux_gnueabihf = None
+TARGET_CXXFLAGS = None
+CXXFLAGS = None
+DEBUG = Some("true")
+running: "arm-linux-gnueabihf-g++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-g" "-march=armv7-a" "-I" "native" "-I" "/usr/local/include" "--std=c++11" "-Wall" "-Wextra" "-o" "/j/projects/acm-coffee/target/armv7-unknown-linux-gnueabihf/debug/build/cv-f95111f27ce023a5/out/native/features2d.o" "-c" "native/features2d.cc"
+exit code: 0
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+OPT_LEVEL = Some("0")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+CXX_armv7-unknown-linux-gnueabihf = None
+CXX_armv7_unknown_linux_gnueabihf = None
+TARGET_CXX = None
+CXX = None
+HOST = Some("x86_64-unknown-linux-gnu")
+CROSS_COMPILE = None
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+CXXFLAGS_armv7-unknown-linux-gnueabihf = None
+CXXFLAGS_armv7_unknown_linux_gnueabihf = None
+TARGET_CXXFLAGS = None
+CXXFLAGS = None
+DEBUG = Some("true")
+running: "arm-linux-gnueabihf-g++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-g" "-march=armv7-a" "-I" "native" "-I" "/usr/local/include" "--std=c++11" "-Wall" "-Wextra" "-o" "/j/projects/acm-coffee/target/armv7-unknown-linux-gnueabihf/debug/build/cv-f95111f27ce023a5/out/native/highgui.o" "-c" "native/highgui.cc"
+exit code: 0
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+OPT_LEVEL = Some("0")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+CXX_armv7-unknown-linux-gnueabihf = None
+CXX_armv7_unknown_linux_gnueabihf = None
+TARGET_CXX = None
+CXX = None
+HOST = Some("x86_64-unknown-linux-gnu")
+CROSS_COMPILE = None
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+CXXFLAGS_armv7-unknown-linux-gnueabihf = None
+CXXFLAGS_armv7_unknown_linux_gnueabihf = None
+TARGET_CXXFLAGS = None
+CXXFLAGS = None
+DEBUG = Some("true")
+running: "arm-linux-gnueabihf-g++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-g" "-march=armv7-a" "-I" "native" "-I" "/usr/local/include" "--std=c++11" "-Wall" "-Wextra" "-o" "/j/projects/acm-coffee/target/armv7-unknown-linux-gnueabihf/debug/build/cv-f95111f27ce023a5/out/native/imcodecs.o" "-c" "native/imcodecs.cc"
+exit code: 0
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+OPT_LEVEL = Some("0")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+CXX_armv7-unknown-linux-gnueabihf = None
+CXX_armv7_unknown_linux_gnueabihf = None
+TARGET_CXX = None
+CXX = None
+HOST = Some("x86_64-unknown-linux-gnu")
+CROSS_COMPILE = None
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+CXXFLAGS_armv7-unknown-linux-gnueabihf = None
+CXXFLAGS_armv7_unknown_linux_gnueabihf = None
+TARGET_CXXFLAGS = None
+CXXFLAGS = None
+DEBUG = Some("true")
+running: "arm-linux-gnueabihf-g++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-g" "-march=armv7-a" "-I" "native" "-I" "/usr/local/include" "--std=c++11" "-Wall" "-Wextra" "-o" "/j/projects/acm-coffee/target/armv7-unknown-linux-gnueabihf/debug/build/cv-f95111f27ce023a5/out/native/imgproc.o" "-c" "native/imgproc.cc"
+exit code: 0
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+OPT_LEVEL = Some("0")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+CXX_armv7-unknown-linux-gnueabihf = None
+CXX_armv7_unknown_linux_gnueabihf = None
+TARGET_CXX = None
+CXX = None
+HOST = Some("x86_64-unknown-linux-gnu")
+CROSS_COMPILE = None
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+CXXFLAGS_armv7-unknown-linux-gnueabihf = None
+CXXFLAGS_armv7_unknown_linux_gnueabihf = None
+TARGET_CXXFLAGS = None
+CXXFLAGS = None
+DEBUG = Some("true")
+running: "arm-linux-gnueabihf-g++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-g" "-march=armv7-a" "-I" "native" "-I" "/usr/local/include" "--std=c++11" "-Wall" "-Wextra" "-o" "/j/projects/acm-coffee/target/armv7-unknown-linux-gnueabihf/debug/build/cv-f95111f27ce023a5/out/native/mat.o" "-c" "native/mat.cc"
+exit code: 0
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+OPT_LEVEL = Some("0")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+CXX_armv7-unknown-linux-gnueabihf = None
+CXX_armv7_unknown_linux_gnueabihf = None
+TARGET_CXX = None
+CXX = None
+HOST = Some("x86_64-unknown-linux-gnu")
+CROSS_COMPILE = None
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+CXXFLAGS_armv7-unknown-linux-gnueabihf = None
+CXXFLAGS_armv7_unknown_linux_gnueabihf = None
+TARGET_CXXFLAGS = None
+CXXFLAGS = None
+DEBUG = Some("true")
+running: "arm-linux-gnueabihf-g++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-g" "-march=armv7-a" "-I" "native" "-I" "/usr/local/include" "--std=c++11" "-Wall" "-Wextra" "-o" "/j/projects/acm-coffee/target/armv7-unknown-linux-gnueabihf/debug/build/cv-f95111f27ce023a5/out/native/objdetect.o" "-c" "native/objdetect.cc"
+exit code: 0
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+OPT_LEVEL = Some("0")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+CXX_armv7-unknown-linux-gnueabihf = None
+CXX_armv7_unknown_linux_gnueabihf = None
+TARGET_CXX = None
+CXX = None
+HOST = Some("x86_64-unknown-linux-gnu")
+CROSS_COMPILE = None
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+CXXFLAGS_armv7-unknown-linux-gnueabihf = None
+CXXFLAGS_armv7_unknown_linux_gnueabihf = None
+TARGET_CXXFLAGS = None
+CXXFLAGS = None
+DEBUG = Some("true")
+running: "arm-linux-gnueabihf-g++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-g" "-march=armv7-a" "-I" "native" "-I" "/usr/local/include" "--std=c++11" "-Wall" "-Wextra" "-o" "/j/projects/acm-coffee/target/armv7-unknown-linux-gnueabihf/debug/build/cv-f95111f27ce023a5/out/native/text.o" "-c" "native/text.cc"
+exit code: 0
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+OPT_LEVEL = Some("0")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+CXX_armv7-unknown-linux-gnueabihf = None
+CXX_armv7_unknown_linux_gnueabihf = None
+TARGET_CXX = None
+CXX = None
+HOST = Some("x86_64-unknown-linux-gnu")
+CROSS_COMPILE = None
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+CXXFLAGS_armv7-unknown-linux-gnueabihf = None
+CXXFLAGS_armv7_unknown_linux_gnueabihf = None
+TARGET_CXXFLAGS = None
+CXXFLAGS = None
+DEBUG = Some("true")
+running: "arm-linux-gnueabihf-g++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-g" "-march=armv7-a" "-I" "native" "-I" "/usr/local/include" "--std=c++11" "-Wall" "-Wextra" "-o" "/j/projects/acm-coffee/target/armv7-unknown-linux-gnueabihf/debug/build/cv-f95111f27ce023a5/out/native/utils.o" "-c" "native/utils.cc"
+exit code: 0
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+OPT_LEVEL = Some("0")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+CXX_armv7-unknown-linux-gnueabihf = None
+CXX_armv7_unknown_linux_gnueabihf = None
+TARGET_CXX = None
+CXX = None
+HOST = Some("x86_64-unknown-linux-gnu")
+CROSS_COMPILE = None
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+CXXFLAGS_armv7-unknown-linux-gnueabihf = None
+CXXFLAGS_armv7_unknown_linux_gnueabihf = None
+TARGET_CXXFLAGS = None
+CXXFLAGS = None
+DEBUG = Some("true")
+running: "arm-linux-gnueabihf-g++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-g" "-march=armv7-a" "-I" "native" "-I" "/usr/local/include" "--std=c++11" "-Wall" "-Wextra" "-o" "/j/projects/acm-coffee/target/armv7-unknown-linux-gnueabihf/debug/build/cv-f95111f27ce023a5/out/native/video.o" "-c" "native/video.cc"
+exit code: 0
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+OPT_LEVEL = Some("0")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+CXX_armv7-unknown-linux-gnueabihf = None
+CXX_armv7_unknown_linux_gnueabihf = None
+TARGET_CXX = None
+CXX = None
+HOST = Some("x86_64-unknown-linux-gnu")
+CROSS_COMPILE = None
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+CXXFLAGS_armv7-unknown-linux-gnueabihf = None
+CXXFLAGS_armv7_unknown_linux_gnueabihf = None
+TARGET_CXXFLAGS = None
+CXXFLAGS = None
+DEBUG = Some("true")
+running: "arm-linux-gnueabihf-g++" "-O0" "-ffunction-sections" "-fdata-sections" "-fPIC" "-g" "-march=armv7-a" "-I" "native" "-I" "/usr/local/include" "--std=c++11" "-Wall" "-Wextra" "-o" "/j/projects/acm-coffee/target/armv7-unknown-linux-gnueabihf/debug/build/cv-f95111f27ce023a5/out/native/videoio.o" "-c" "native/videoio.cc"
+exit code: 0
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+HOST = Some("x86_64-unknown-linux-gnu")
+AR_armv7-unknown-linux-gnueabihf = None
+AR_armv7_unknown_linux_gnueabihf = None
+TARGET_AR = None
+AR = None
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+running: "ar" "crs" "/j/projects/acm-coffee/target/armv7-unknown-linux-gnueabihf/debug/build/cv-f95111f27ce023a5/out/libopencv-wrapper.a" "/j/projects/acm-coffee/target/armv7-unknown-linux-gnueabihf/debug/build/cv-f95111f27ce023a5/out/native/common-rust.o" "/j/projects/acm-coffee/target/armv7-unknown-linux-gnueabihf/debug/build/cv-f95111f27ce023a5/out/native/features2d.o" "/j/projects/acm-coffee/target/armv7-unknown-linux-gnueabihf/debug/build/cv-f95111f27ce023a5/out/native/highgui.o" "/j/projects/acm-coffee/target/armv7-unknown-linux-gnueabihf/debug/build/cv-f95111f27ce023a5/out/native/imcodecs.o" "/j/projects/acm-coffee/target/armv7-unknown-linux-gnueabihf/debug/build/cv-f95111f27ce023a5/out/native/imgproc.o" "/j/projects/acm-coffee/target/armv7-unknown-linux-gnueabihf/debug/build/cv-f95111f27ce023a5/out/native/mat.o" "/j/projects/acm-coffee/target/armv7-unknown-linux-gnueabihf/debug/build/cv-f95111f27ce023a5/out/native/objdetect.o" "/j/projects/acm-coffee/target/armv7-unknown-linux-gnueabihf/debug/build/cv-f95111f27ce023a5/out/native/text.o" "/j/projects/acm-coffee/target/armv7-unknown-linux-gnueabihf/debug/build/cv-f95111f27ce023a5/out/native/utils.o" "/j/projects/acm-coffee/target/armv7-unknown-linux-gnueabihf/debug/build/cv-f95111f27ce023a5/out/native/video.o" "/j/projects/acm-coffee/target/armv7-unknown-linux-gnueabihf/debug/build/cv-f95111f27ce023a5/out/native/videoio.o"
+exit code: 0
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+cargo:rustc-link-lib=static=opencv-wrapper
+cargo:rustc-link-search=native=/j/projects/acm-coffee/target/armv7-unknown-linux-gnueabihf/debug/build/cv-f95111f27ce023a5/out
+TARGET = Some("armv7-unknown-linux-gnueabihf")
+cargo:rustc-link-lib=stdc++
+cargo:rustc-link-search=native=/usr/local/lib
+cargo:rustc-link-lib=opencv_core
+cargo:rustc-link-lib=opencv_features2d
+cargo:rustc-link-lib=opencv_xfeatures2d
+cargo:rustc-link-lib=opencv_highgui
+cargo:rustc-link-lib=opencv_imgcodecs
+cargo:rustc-link-lib=opencv_imgproc
+cargo:rustc-link-lib=opencv_objdetect
+cargo:rustc-link-lib=opencv_text
+cargo:rustc-link-lib=opencv_videoio
+cargo:rustc-link-lib=opencv_video

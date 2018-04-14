@@ -1,25 +1,31 @@
 #[macro_use]
 extern crate lazy_static;
 extern crate tiny_http;
-extern crate cv;
+//extern crate memmap;
+//extern crate mmap;
+//extern crate libc;
+extern crate image;
 
 use tiny_http::*;
-use cv::highgui::*;
-use cv::videoio::VideoCapture;
 
+use std::ptr;
 use std::{thread, time, fs};
 use std::io::prelude::*;
-use std::io::Write;
-use std::io::Read;
+use std::io::{Read, Write};
 use std::fs::File;
 use std::path::Path;
 use std::env;
 use std::sync::Mutex;
+use std::fs::OpenOptions;
+use std::io::{Seek, SeekFrom};
+use std::os::unix::prelude::AsRawFd;
 
-static SHOT_DELAY : u64 = 1200; // ms
+static SHOT_DELAY : u64 = 1100; // ms
+static SHARED_SNAP_FILE : &'static str = "/tmp/snap.jpg";
 
 lazy_static! {
     static ref SHOT: Mutex<Vec<u8>> = Mutex::new(vec![]);
+    static ref METERS: Meters = construct_meters();
 }
 
 fn main() {
@@ -39,7 +45,6 @@ fn main() {
     }
   }
   
-  println!("Spawning threads...");
   let webcam_handle    = thread::spawn(|| { webcam_thread();    });
   let webserver_handle = thread::spawn(|| { webserver_thread(); });
   webcam_handle.join().unwrap();
@@ -47,9 +52,10 @@ fn main() {
 }
 
 fn webserver_thread() {
+  println!("[ webserver ] Spawning web server..");
   let listen_addr = "0.0.0.0:8080";
   let server = Server::http(listen_addr).unwrap();
-  println!("Listening on {}", listen_addr);
+  println!("[ webserver ] Listening on {}", listen_addr);
   
   let mut v_clone: Vec<u8>;
   
@@ -92,32 +98,38 @@ fn webserver_thread() {
       
       request.respond(response);
   }
-  
 }
 
 fn webcam_thread() {
-  let cap = VideoCapture::new(0);
-  println!("Capturing from /dev/video0");
+  println!("[ webcam ] spawning python proc...");
+  let process = std::process::Command::new("./camera.py")
+                   .spawn()
+                   .unwrap();
   
   loop {
-    let image: cv::mat::Mat = cap.read().unwrap();
+    println!("[ webcam ] Read Snap!");
     
-    // TODO process image
+    let img = match image::open(SHARED_SNAP_FILE) {
+      Ok(i) => i,
+      _ => continue
+    };
+    
+    let mut data_vec = Vec::<u8>::new();
+    img.save(&mut data_vec, image::ImageFormat::PNG);
     
     // Dump into shared global var
     match SHOT.lock() {
       Ok(mut v) => {
         // Remove existing payload
         v.retain(|&_| false);
-        let mut new_v_dat = image.image_encode(".png", vec![]).expect("Error encoding SHOT");
-        v.append(&mut new_v_dat);
+        //let mut new_v_dat = image.image_encode(".png", vec![]).expect("Error encoding SHOT");
+        v.append(&mut data_vec);
       },
       _ => {
-        println!("[ Warn ] Could not dump snap!");
+        println!("[ webcam ]  Warn ] Could not dump snap!");
       }
     }
     
-    println!("Snap!");
     thread::sleep(time::Duration::from_millis(SHOT_DELAY));
   }
 }
@@ -165,3 +177,16 @@ struct Meters {
   
 }
 
+fn construct_meters() -> Meters {
+  Meters {
+    water_top_x: 0,
+    water_top_y: 0,
+    water_bot_x: 0,
+    water_bot_y: 0,
+    
+    coffee_top_x: 0,
+    coffee_top_y: 0,
+    coffee_bot_x: 0,
+    coffee_bot_y: 0,
+  }
+}

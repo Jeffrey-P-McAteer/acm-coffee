@@ -1,0 +1,10 @@
+[package]
+name = "acm-coffee"
+version = "0.1.0"
+authors = ["Jeffrey McAteer <jeffrey.p.mcateer@gmail.com>"]
+
+
+[dependencies]
+tiny_http = "0.5"
+cv = { git = "https://github.com/nebgnahz/cv-rs.git" }
+lazy_static = "1.0"

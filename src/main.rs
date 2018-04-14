@@ -74,7 +74,8 @@ fn webserver_thread() {
       
       if url == "/" || url == "/index.html" {
         headers.push(Header::from_bytes(&"Content-Type"[..], &"text/html; charset=utf-8"[..]).unwrap());
-        let html_payload = "<meta http-equiv=\"refresh\" content=\"1;url=/\" /><h1>ACM RFC 2324 Implementation</h1><img src=\"/snap.png\">".as_bytes();
+        //let html_payload = "<meta http-equiv=\"refresh\" content=\"1;url=/\" /><h1>ACM RFC 2324 Implementation</h1><img src=\"/snap.png\">".as_bytes();
+        let html_payload = read_from_file("/index.htm").as_str();
         response = Response::new(StatusCode::from(200), headers, &html_payload[..], Some(html_payload.len()), None);
       }
       else if url == "/snap.png" {
@@ -164,17 +165,30 @@ fn write_to_file<S: Into<String>>(file: S, content: S) {
   }
 }
 
+fn read_from_file<S: Into<String>>(file_name: S) -> String {
+  let file_name = file_name.into();
+  let mut file = File::open(file_name.as_str()).expect("Unable to open the file");
+  let mut contents = String::new();
+  file.read_to_string(&mut contents).expect("Unable to read the file");
+  return contents;
+}
+
+fn update_meters() {
+  
+}
+
 struct Meters {
   water_top_x: i32,
   water_top_y: i32,
   water_bot_x: i32,
   water_bot_y: i32,
+  water_percent: f32,
   
   coffee_top_x: i32,
   coffee_top_y: i32,
   coffee_bot_x: i32,
   coffee_bot_y: i32,
-  
+  coffee_percent: f32,
 }
 
 fn construct_meters() -> Meters {
@@ -183,10 +197,12 @@ fn construct_meters() -> Meters {
     water_top_y: 0,
     water_bot_x: 0,
     water_bot_y: 0,
+    water_percent: 0.0,
     
     coffee_top_x: 0,
     coffee_top_y: 0,
     coffee_bot_x: 0,
     coffee_bot_y: 0,
+    coffee_percent: 0.0,
   }
 }

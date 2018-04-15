@@ -95,20 +95,19 @@ fn webserver_thread() {
       } else {
         url
       };
-      /*
       let status_txt = match METERS.lock() { Ok(out_meters) => { format!(r#"
 CURRENT_GROUNDS: {}
 LAST_BREW_ON_S : {}
-water_top_x: {},
-water_top_y: {},
-water_bot_x: {},
-water_bot_y: {},
-water_percent: {},
-coffee_top_x: {},
-coffee_top_y: {},
-coffee_bot_x: {},
-coffee_bot_y: {},
-coffee_percent: {},
+water_top_x:     {}
+water_top_y:     {}
+water_bot_x:     {}
+water_bot_y:     {}
+water_percent:   {}
+coffee_top_x:    {}
+coffee_top_y:    {}
+coffee_bot_x:    {}
+coffee_bot_y:    {}
+coffee_percent:  {}
 "#, CURRENT_GROUNDS.lock().unwrap(), LAST_BREW_ON_S.lock().unwrap(),
   out_meters.water_top_x,
   out_meters.water_top_y,
@@ -127,8 +126,7 @@ CURRENT_GROUNDS: {}
 LAST_BREW_ON_S : {}
 "#, CURRENT_GROUNDS.lock().unwrap(), LAST_BREW_ON_S.lock().unwrap(),)
       }
-    };*/
-      let status_txt = "".to_string();
+    };
       let index_html_string = format!(r#"
 <html><head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><body>
 <h1>ACM RFC 2324 Implementation</h1>
@@ -346,13 +344,7 @@ fn webcam_thread() {
     // Modify image
     match METERS.lock() {
       Ok(mut out_meters) => {
-        //let white = image::Pixel::from_channels(0xff, 0xff, 0xff, 0xff);
-        draw_fat_px(&mut img, out_meters.water_top_x, out_meters.water_top_y);
-        draw_fat_px(&mut img, out_meters.water_bot_x, out_meters.water_bot_y);
-        
-        draw_fat_px(&mut img, out_meters.coffee_top_x, out_meters.coffee_top_y);
-        draw_fat_px(&mut img, out_meters.coffee_bot_x, out_meters.coffee_bot_y);
-        
+        // compute levels with original data
         out_meters.water_percent = percent(&img,
                                            out_meters.water_top_x, out_meters.water_top_y,
                                            out_meters.water_bot_x, out_meters.water_bot_y);
@@ -361,6 +353,7 @@ fn webcam_thread() {
                                            out_meters.coffee_top_x, out_meters.coffee_top_y,
                                            out_meters.coffee_bot_x, out_meters.coffee_bot_y);
         
+        // Draw levels
         let x = out_meters.water_top_x + ((out_meters.water_top_x - out_meters.water_bot_x) as f32 * (out_meters.water_percent / 100.0)) as i32;
         let y = out_meters.water_top_y + ((out_meters.water_top_y - out_meters.water_bot_y) as f32 * (out_meters.water_percent / 100.0)) as i32;
         draw_fat_px(&mut img, x, y);
@@ -368,6 +361,13 @@ fn webcam_thread() {
         let x = out_meters.coffee_top_x + ((out_meters.coffee_top_x - out_meters.coffee_bot_x) as f32 * (out_meters.coffee_percent / 100.0)) as i32;
         let y = out_meters.coffee_top_y + ((out_meters.coffee_top_y - out_meters.coffee_bot_y) as f32 * (out_meters.coffee_percent / 100.0)) as i32;
         draw_fat_px(&mut img, x, y);
+        
+        // Draw guides
+        draw_fat_px(&mut img, out_meters.water_top_x, out_meters.water_top_y);
+        draw_fat_px(&mut img, out_meters.water_bot_x, out_meters.water_bot_y);
+        
+        draw_fat_px(&mut img, out_meters.coffee_top_x, out_meters.coffee_top_y);
+        draw_fat_px(&mut img, out_meters.coffee_bot_x, out_meters.coffee_bot_y);
         
       },
       _ => {
@@ -422,6 +422,7 @@ fn percent(img: &image::DynamicImage, x1: i32, y1: i32, /*begin*/ x2: i32, y2: i
     if ! pixel_similar(first_pixel, pixel) {
       break;
     }
+    percent += 2.0;
   }
   return 100.0 - percent;
 }

@@ -1,3 +1,4 @@
+Link to app (must be on ODU wifi)
 
-TODO
+http://www.cs.odu.edu/~acm/cgi-bin/coffeepot.cgi
 

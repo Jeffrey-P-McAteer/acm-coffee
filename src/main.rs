@@ -181,9 +181,10 @@ fn webcam_thread() {
     .args(&["-c", "ps aux | grep python | awk '{print $2}' | xargs kill -9"])
     .output()
     .unwrap();
-  let process = std::process::Command::new("./camera.py")
-                   .spawn()
-                   .unwrap();
+  let process = match std::process::Command::new("./camera.py").spawn() {
+    Ok(p) => p,
+    _ => std::process::Command::new("/opt/coffee/camera.py").spawn().unwrap(),
+  };
   
   loop {
     println!("[ webcam ] Read Snap!");

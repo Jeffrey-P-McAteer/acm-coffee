@@ -1,9 +1,6 @@
 #[macro_use]
 extern crate lazy_static;
 extern crate tiny_http;
-//extern crate memmap;
-//extern crate mmap;
-//extern crate libc;
 extern crate image;
 
 use tiny_http::*;
@@ -26,6 +23,7 @@ static SHARED_SNAP_FILE : &'static str = "/tmp/snap.jpg";
 lazy_static! {
     static ref SHOT: Mutex<Vec<u8>> = Mutex::new(vec![]);
     static ref METERS: Meters = construct_meters();
+    static ref CURRENT_GROUNDS: Mutex<String> = Mutex::new(String::new());
 }
 
 fn main() {
@@ -66,7 +64,56 @@ fn webserver_thread() {
           //request.headers()
       );
       
+      let mut query = String::new();
       let url = format!("{}", request.url());
+      let url = if url.contains("?") {
+        let first_split = url.split("?").collect::<Vec<&str>>();
+        query = format!("{}", first_split.get(1).unwrap());
+        query = query.chars().skip(2).take(query.len() - 2).collect();
+        query = query.replace("%20", " ")
+                     .replace("+", " ");
+        format!("{}", first_split.get(0).unwrap() )
+      } else {
+        url
+      };
+      
+      let status_txt = format!(r#"
+Currrent Grounds: {}
+"#, CURRENT_GROUNDS.lock().unwrap());
+      
+      let index_html_string = format!(r#"
+<h1>ACM RFC 2324 Implementation</h1>
+<style>
+iframe {{
+  width: 100%;
+  min-height: 400px;
+  border: none;
+}}
+</style>
+<iframe src="/status.html"></iframe>
+<hr>
+<form action="/brew">
+  <input type="submit" value="Brew">
+</form>
+<form action="/stop">
+  <input type="submit" value="Stop">
+</form>
+<form action="/set-grounds" method="get">
+  <p>Grounds flavor: <input name="v"></p>
+  <input type="submit" value="Set Grounds">
+</form>
+        "#);
+      let status_html_string = format!(r#"
+<meta http-equiv="refresh" content="1;url=/status.html" />
+<style>
+img, pre {{
+  display: inline;
+  vertical-align: text-top;
+}}
+</style>
+<img src="/snap.png" width="420px">
+<pre>{}</pre>
+        "#, status_txt);
       
       // Response variables
       let mut headers: Vec<Header> = Vec::new();
@@ -74,9 +121,16 @@ fn webserver_thread() {
       
       if url == "/" || url == "/index.html" {
         headers.push(Header::from_bytes(&"Content-Type"[..], &"text/html; charset=utf-8"[..]).unwrap());
-        //let html_payload = "<meta http-equiv=\"refresh\" content=\"1;url=/\" /><h1>ACM RFC 2324 Implementation</h1><img src=\"/snap.png\">".as_bytes();
-        let html_payload = read_from_file("/index.htm").as_str();
+        //html_string = read_from_file("/index.htm");
+        let html_payload = index_html_string.as_bytes();
         response = Response::new(StatusCode::from(200), headers, &html_payload[..], Some(html_payload.len()), None);
+        request.respond(response);
+      }
+      else if url == "/status.html" {
+        headers.push(Header::from_bytes(&"Content-Type"[..], &"text/html; charset=utf-8"[..]).unwrap());
+        let html_payload = status_html_string.as_bytes();
+        response = Response::new(StatusCode::from(200), headers, &html_payload[..], Some(html_payload.len()), None);
+        request.respond(response);
       }
       else if url == "/snap.png" {
         headers.push(Header::from_bytes(&"Content-Type"[..], &"image/png"[..]).unwrap());
@@ -84,25 +138,49 @@ fn webserver_thread() {
           Ok(v) => {
             v_clone = v.clone(); // Copy new data into this thread
             response = Response::new(StatusCode::from(200), headers, &v_clone[..], Some(v.len()), None);
+            request.respond(response);
           },
           _ => {
             println!("[ Warn ] Could get snap data for http response!");
             let html_payload = "DEVNULL".as_bytes(); // todo make this better
             response = Response::new(StatusCode::from(200), headers, &html_payload[..], Some(html_payload.len()), None);
+            request.respond(response);
           }
         }
+      }
+      else if url == "/brew" {
+        setpot(true);
+        let html_payload = "<meta http-equiv=\"refresh\" content=\"0;URL='/'\" />".as_bytes();
+        response = Response::new(StatusCode::from(200), headers, &html_payload[..], Some(html_payload.len()), None);
+        request.respond(response);
+      }
+      else if url == "/stop" {
+        setpot(false);
+        let html_payload = "<meta http-equiv=\"refresh\" content=\"0;URL='/'\" />".as_bytes();
+        response = Response::new(StatusCode::from(200), headers, &html_payload[..], Some(html_payload.len()), None);
+        request.respond(response);
+      }
+      else if url == "/set-grounds" {
+        let mut s_pointer = CURRENT_GROUNDS.lock().unwrap();
+        *s_pointer = query;
+        let html_payload = "<meta http-equiv=\"refresh\" content=\"0;URL='/'\" />".as_bytes();
+        response = Response::new(StatusCode::from(200), headers, &html_payload[..], Some(html_payload.len()), None);
+        request.respond(response);
       }
       else { // redir to "/"
         let html_payload = "<meta http-equiv=\"refresh\" content=\"0;URL='/'\" />".as_bytes();
         response = Response::new(StatusCode::from(200), headers, &html_payload[..], Some(html_payload.len()), None);
+        request.respond(response);
       }
-      
-      request.respond(response);
   }
 }
 
 fn webcam_thread() {
   println!("[ webcam ] spawning python proc...");
+  std::process::Command::new("sh")
+    .args(&["-c", "ps aux | grep python | awk '{print $2}' | xargs kill -9"])
+    .output()
+    .unwrap();
   let process = std::process::Command::new("./camera.py")
                    .spawn()
                    .unwrap();
@@ -112,7 +190,10 @@ fn webcam_thread() {
     
     let img = match image::open(SHARED_SNAP_FILE) {
       Ok(i) => i,
-      _ => continue
+      _ => {
+        thread::sleep(time::Duration::from_millis(SHOT_DELAY));
+        continue;
+      }
     };
     
     let mut data_vec = Vec::<u8>::new();
@@ -139,9 +220,11 @@ fn setpot(on: bool) {
   write_to_file("/sys/class/gpio/export", "120"); // Likely throw error after writing once
   write_to_file("/sys/class/gpio/gpio120/direction", "out");
   if on {
+    println!("[ pot ] ON");
     write_to_file("/sys/class/gpio/gpio120/value", "1");
   }
   else {
+    println!("[ pot ] OFF");
     write_to_file("/sys/class/gpio/gpio120/value", "0");
   }
 }

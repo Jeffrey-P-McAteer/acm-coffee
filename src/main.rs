@@ -155,9 +155,13 @@ iframe {{
 </form>
 </body>
         "#);
+      let bg_color = if *CURRENTLY_ON.lock().unwrap() { "#ff0000" } else { "#0000ff" };
       let status_html_string = format!(r#"
 <meta http-equiv="refresh" content="1;url=/status.html" />
 <style>
+html, body {{
+  background-color: {};
+}}
 img, pre {{
   display: inline;
   vertical-align: text-top;
@@ -165,7 +169,7 @@ img, pre {{
 </style>
 <img src="/snap.png" align="left">
 <pre>{}</pre>
-        "#, status_txt);
+        "#, bg_color, status_txt);
       let coords_html_string = format!(r#"
 <style>
 img, pre {{
@@ -406,12 +410,17 @@ fn draw_fat_px(img: &mut image::DynamicImage, x: i32, y: i32) {
 }
 
 fn percent(img: &image::DynamicImage, x1: i32, y1: i32, /*begin*/ x2: i32, y2: i32 /*end*/) -> f32 {
-  let dx = x1 - x2;
-  let dy = y1 - y2;
+  let xs = if x1 < x2 { x1 } else { x2 };
+  let xl = if x1 > x2 { x1 } else { x2 };
+  let ys = if y1 < y2 { y1 } else { y2 };
+  let yl = if y1 > y2 { y1 } else { y2 };
+  
+  let dx = xl - xs;
+  let dy = yl - ys;
   let first_pixel = {
     let percent = 0.0;
-    let x = x1 + (dx as f32 * (percent as f32 / 100.0)) as i32;
-    let y = y1 + (dy as f32 * (percent as f32 / 100.0)) as i32;
+    let x = xs + (dx as f32 * (percent as f32 / 100.0)) as i32;
+    let y = ys + (dy as f32 * (percent as f32 / 100.0)) as i32;
     img.get_pixel(x as u32, y as u32)
   };
   let mut percent = 0.0;
@@ -424,13 +433,17 @@ fn percent(img: &image::DynamicImage, x1: i32, y1: i32, /*begin*/ x2: i32, y2: i
     }
     percent += 2.0;
   }
-  return 100.0 - percent;
+  let percent = 100.0 - percent;
+  if percent < 100.0 {
+    return percent;
+  }
+  return 100.0;
 }
 
 fn pixel_similar(px1: image::Rgba<u8>, px2: image::Rgba<u8>) -> bool {
-  let range = 10;
-  return (px1.data[0] as i32 - px2.data[0] as i32).abs() < range &&
-         (px1.data[1] as i32 - px2.data[1] as i32).abs() < range &&
+  let range = 20;
+  return (px1.data[0] as i32 - px2.data[0] as i32).abs() < range ||
+         (px1.data[1] as i32 - px2.data[1] as i32).abs() < range ||
          (px1.data[2] as i32 - px2.data[2] as i32).abs() < range;
 }
 
@@ -438,7 +451,7 @@ fn setpot(on: bool) {
   write_to_file("/sys/class/gpio/export", "120"); // Likely throw error after writing once
   write_to_file("/sys/class/gpio/gpio120/direction", "out");
   if on {
-    if timestamp_s() - *START_S.lock().unwrap() < 15 { // Wait 15 seconds before allowing turning on
+    if timestamp_s() - (*START_S.lock().unwrap()) < 15 { // Wait 15 seconds before allowing turning on
       println!("[ pot ] not turning on as app started too soon.");
       return;
     }

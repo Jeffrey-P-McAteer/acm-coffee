@@ -22,7 +22,8 @@ crontab - <<EOF
 # Perform auth every 60s
 * * * * * /opt/coffee/auth.sh
 * * * * * sleep 20; /push_ip_to_cs.sh
-* * * * * /opt/coffee/target/release/acm-coffee >>/tmp/log 2>&1
+#* * * * * /opt/coffee/target/release/acm-coffee >>/tmp/log 2>&1
+* * * * * /opt/coffee/run.sh >>/tmp/log 2>&1
 # Clear log file every hour
 0 * * * * rm /tmp/log*
 EOF

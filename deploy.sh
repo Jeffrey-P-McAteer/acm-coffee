@@ -77,7 +77,7 @@ chmod 600 .ssh/id_rsa
 # Now for the webcam. It requires the gspca_zc3xx module.
 #modprobe gspca_zc3xx
 
-apt-get install -y git build-essential
+apt-get install -y git build-essential pkg-config
 
 git clone --single-branch --branch debian/`uname -r` --depth 1 https://github.com/NextThingCo/CHIP-linux.git /lib/modules/`uname -r`/build/
 cd /lib/modules/`uname -r`/build/

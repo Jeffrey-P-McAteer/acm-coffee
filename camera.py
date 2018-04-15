@@ -10,6 +10,7 @@ from datetime import datetime
 import mmap
 import datetime
 
+PRINT_SNAPS = False
 SHARED_SNAP_FILE = "/tmp/snap.jpg"
 SHOT_DELAY = 1 # seconds
 
@@ -33,6 +34,7 @@ while True:
   #     lineType)
   
   cv2.imwrite(SHARED_SNAP_FILE, frame)
-  print "[ camera.py ] Snap!"
+  if PRINT_SNAPS:
+    print "[ camera.py ] Snap!"
   time.sleep(SHOT_DELAY)
 

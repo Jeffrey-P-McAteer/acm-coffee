@@ -62,10 +62,10 @@ fn main() {
   
   let webcam_handle    = thread::spawn(|| { webcam_thread();    });
   let webserver_handle = thread::spawn(|| { webserver_thread(); });
-  let alexa_handle     = thread::spawn(|| { alexa_thread();     });
+  //let alexa_handle     = thread::spawn(|| { alexa_thread();     });
   webcam_handle.join().unwrap();
   webserver_handle.join().unwrap();
-  alexa_handle.join().unwrap();
+  //alexa_handle.join().unwrap();
 }
 
 fn webserver_thread() {
@@ -133,38 +133,57 @@ LAST_BREW_ON_S : {}
 <style>
 iframe {{
   width: 100%;
-  min-height: 480px;
+  min-height: 220pt;
   border: none;
 }}
+fieldset {{
+  display: inline-block;
+  float: left;
+  border-width: 1px;
+  border-color: #000000;
+}}
+p {{
+  margin: 0;
+  float: left;
+}}
 </style>
-<iframe src="/status.html"></iframe>
-<hr>
-<form action="/brew">
-  <input type="submit" value="Brew">
-</form>
-<form action="/stop">
-  <input type="submit" value="Stop">
-</form>
-<form action="/set-grounds" method="get">
-  <p>Grounds flavor: <input name="v"></p>
-  <input type="submit" value="Set Grounds">
-</form>
-<form action="/pre-set-coords" method="get">
-  <input name="v" type="hidden" style="display:none;" value="null">
-  <input type="submit" value="Set Coordinates">
-</form>
+<fieldset style="width:440pt;"><legend>Status</legend>
+  <iframe src="/status.html"></iframe>
+</fieldset>
+<fieldset><legend>Controls</legend>
+  <form action="/brew" style="float:left;margin-right:12pt;">
+    <input type="submit" value="Brew">
+  </form>
+  <form action="/stop">
+    <input type="submit" value="Stop">
+  </form>
+  <form action="/set-grounds" method="get">
+    <p>Grounds flavor: <input name="v"></p>
+    <input type="submit" value="Set Grounds">
+  </form>
+  <form action="/pre-set-coords" method="get">
+    <input name="v" type="hidden" style="display:none;" value="null">
+    <input type="submit" value="Set Coordinates">
+  </form>
+</fieldset>
 </body>
         "#);
-      let bg_color = if *CURRENTLY_ON.lock().unwrap() { "#ff0000" } else { "#0000ff" };
+      let bg_color = if *CURRENTLY_ON.lock().unwrap() { "#E55A52" } else { "#81BFFC" };
       let status_html_string = format!(r#"
 <meta http-equiv="refresh" content="1;url=/status.html" />
 <style>
 html, body {{
   background-color: {};
+  margin: 0;
+  padding: 0;
 }}
 img, pre {{
   display: inline;
   vertical-align: text-top;
+}}
+img {{
+  margin: 2pt;
+  width: 240pt;
 }}
 </style>
 <img src="/snap.png" align="left">
@@ -297,7 +316,7 @@ window.addEventListener('DOMContentLoaded', function() {{
   }
 }
 
-fn alexa_thread() {
+/*fn alexa_thread() {
   println!("[ alexa ] spawning alexa thread...");
   let mut last_body = String::new();
   loop {
@@ -319,7 +338,7 @@ fn alexa_thread() {
     
     thread::sleep(std::time::Duration::from_millis(ALEXA_DELAY));
   }
-}
+}*/
 
 fn webcam_thread() {
   println!("[ webcam ] spawning python proc...");

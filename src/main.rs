@@ -186,7 +186,7 @@ img {{
   width: 240pt;
 }}
 </style>
-<img src="/snap.png" align="left">
+<img src="/snap.jpg" align="left">
 <pre>{}</pre>
         "#, bg_color, status_txt);
       let coords_html_string = format!(r#"
@@ -200,7 +200,7 @@ img {{
 }}
 </style>
 <p>Click the coordinates in the following order: <em>water top, water bottom, coffee top, coffee bottom.</em></p>
-<img id="image" src="/snap.png" align="left">
+<img id="image" src="/snap.jpg" align="left">
 <form action="/set-coords">
   <input id="v" name="v" type="hidden" style="display:none;">
   <input type="submit" value="Set Coordinates" style="display:none;">
@@ -261,7 +261,7 @@ window.addEventListener('DOMContentLoaded', function() {{
         response = Response::new(StatusCode::from(200), headers, &html_payload[..], Some(html_payload.len()), None);
         request.respond(response);
       }
-      else if url == "/snap.png" {
+      else if url == "/snap.jpg" {
         headers.push(Header::from_bytes(&"Content-Type"[..], &"image/png"[..]).unwrap());
         match SHOT.lock() {
           Ok(v) => {
@@ -377,12 +377,24 @@ fn webcam_thread() {
                                            out_meters.coffee_bot_x, out_meters.coffee_bot_y);
         
         // Draw levels
-        let x = out_meters.water_top_x + ((out_meters.water_top_x - out_meters.water_bot_x) as f32 * (out_meters.water_percent / 100.0)) as i32;
-        let y = out_meters.water_top_y + ((out_meters.water_top_y - out_meters.water_bot_y) as f32 * (out_meters.water_percent / 100.0)) as i32;
+        let x = (
+            (out_meters.water_top_x as f32 * (out_meters.water_percent)) +
+            (out_meters.water_bot_x as f32 * (1.0-out_meters.water_percent))
+          ) as i32;
+        let y = (
+            (out_meters.water_top_y as f32 * (out_meters.water_percent)) +
+            (out_meters.water_bot_y as f32 * (1.0-out_meters.water_percent))
+          ) as i32;
         draw_fat_px(&mut img, x, y);
         
-        let x = out_meters.coffee_top_x + ((out_meters.coffee_top_x - out_meters.coffee_bot_x) as f32 * (out_meters.coffee_percent / 100.0)) as i32;
-        let y = out_meters.coffee_top_y + ((out_meters.coffee_top_y - out_meters.coffee_bot_y) as f32 * (out_meters.coffee_percent / 100.0)) as i32;
+        let x = (
+            (out_meters.coffee_top_x as f32 * (out_meters.coffee_percent)) +
+            (out_meters.coffee_bot_x as f32 * (1.0-out_meters.coffee_percent))
+          ) as i32;
+        let y = (
+            (out_meters.coffee_top_y as f32 * (out_meters.coffee_percent)) +
+            (out_meters.coffee_bot_y as f32 * (1.0-out_meters.coffee_percent))
+          ) as i32;
         draw_fat_px(&mut img, x, y);
         
         // Draw guides
@@ -400,7 +412,7 @@ fn webcam_thread() {
     
     // Dump into shared global var
     let mut data_vec = Vec::<u8>::new();
-    img.save(&mut data_vec, image::ImageFormat::PNG);
+    img.save(&mut data_vec, image::ImageFormat::JPEG);
     match SHOT.lock() {
       Ok(mut v) => {
         // Remove existing payload
@@ -434,36 +446,41 @@ fn percent(img: &image::DynamicImage, x1: i32, y1: i32, /*begin*/ x2: i32, y2: i
   let ys = if y1 < y2 { y1 } else { y2 };
   let yl = if y1 > y2 { y1 } else { y2 };
   
-  let dx = xl - xs;
-  let dy = yl - ys;
   let first_pixel = {
-    let percent = 0.0;
-    let x = xs + (dx as f32 * (percent as f32 / 100.0)) as i32;
-    let y = ys + (dy as f32 * (percent as f32 / 100.0)) as i32;
-    img.get_pixel(x as u32, y as u32)
+    img.get_pixel(xs as u32, ys as u32)
+  };
+  let last_pixel = {
+    img.get_pixel(xl as u32, yl as u32)
   };
   let mut percent = 0.0;
-  while percent < 100.0 {
-    let x = x1 + (dx as f32 * (percent as f32 / 100.0)) as i32;
-    let y = y1 + (dy as f32 * (percent as f32 / 100.0)) as i32;
-    let pixel = img.get_pixel(x as u32, y as u32);
-    if ! pixel_similar(first_pixel, pixel) {
+  while percent < 1.0 {
+    let x = ( (xs as f32 * (1.0-percent)) + (xl as f32 * (percent)) ) as u32;
+    let y = ( (ys as f32 * (1.0-percent)) + (yl as f32 * (percent)) ) as u32;
+    let pixel = img.get_pixel(x, y);
+    if pixel_closer_to(pixel, last_pixel, first_pixel) {
       break;
     }
-    percent += 2.0;
+    percent += 0.02; // 2%
   }
-  let percent = 100.0 - percent;
-  if percent < 100.0 {
-    return percent;
-  }
-  return 100.0;
+  return percent;
 }
 
 fn pixel_similar(px1: image::Rgba<u8>, px2: image::Rgba<u8>) -> bool {
   let range = 20;
-  return (px1.data[0] as i32 - px2.data[0] as i32).abs() < range ||
-         (px1.data[1] as i32 - px2.data[1] as i32).abs() < range ||
+  return (px1.data[0] as i32 - px2.data[0] as i32).abs() < range &&
+         (px1.data[1] as i32 - px2.data[1] as i32).abs() < range &&
          (px1.data[2] as i32 - px2.data[2] as i32).abs() < range;
+}
+
+// True if 'comp' closer to px1, false if closer to px2
+fn pixel_closer_to(comp: image::Rgba<u8>, px1: image::Rgba<u8>, px2: image::Rgba<u8>) -> bool {
+  let delta_1 = (px1.data[0] as i32 - comp.data[0] as i32).abs() +
+                (px1.data[1] as i32 - comp.data[1] as i32).abs() +
+                (px1.data[2] as i32 - comp.data[2] as i32).abs();
+  let delta_2 = (px2.data[0] as i32 - comp.data[0] as i32).abs() +
+                (px2.data[1] as i32 - comp.data[1] as i32).abs() +
+                (px2.data[2] as i32 - comp.data[2] as i32).abs();
+  return delta_1 < delta_2;
 }
 
 fn setpot(on: bool) {
